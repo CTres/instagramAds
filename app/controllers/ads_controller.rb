@@ -5,8 +5,7 @@ class AdsController < ApplicationController
     puts request.user_agent
 
     if request.user_agent.include? "iPhone"
-      puts "OMG ITS AN IPHONE"
-      redirect_to "instagram://user?username=colintres"
+      render "iphone.js"
     end
   end
 
