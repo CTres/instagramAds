@@ -1,5 +1,5 @@
 class AdsController < ApplicationController
-  before_filter :create_url, only: :index
+  before_filter :create_url
 
   def index
 
@@ -14,12 +14,18 @@ class AdsController < ApplicationController
   def lookup
     uri = URI(request.original_url)
     @name= params[:path]
+    if request.user_agent.include? "iPhone"
+      render "iphone.js"
+    else
+      redirect_to @url
+    end
   end
 
-
-
-
   def create_url()
-    @url = 'https://www.instagram.com/' + params[:username]
+    if params[:path]
+      @url = 'https://www.instagram.com/' + params[:path]
+    else
+      @url = 'https://www.instagram.com/' + params[:username]
+    end
   end
 end
