@@ -5,6 +5,11 @@ class AdsController < ApplicationController
   def index
     # logging - start click event
     @username = params[:username]
+    puts request.user_agent
+    if request.user_agent.include? "facebook"
+      render 'lookup.html'
+    end
+
     if request.user_agent.include? "iPhone"
       puts 'in if'
       render "iphone.html.erb"
