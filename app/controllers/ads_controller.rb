@@ -1,20 +1,24 @@
 class AdsController < ApplicationController
   before_filter :create_url
+  # protect_from_forgery :except => :index
 
   def index
-
-    puts request.user_agent
+    # logging - start click event
+    @username = params[:username]
     if request.user_agent.include? "iPhone"
-      render "iphone.js"
+      puts 'in if'
+      render "iphone.html.erb"
     else
       redirect_to @url
     end
   end
 
   def lookup
+    puts 'lookup'
     uri = URI(request.original_url)
-    @name= params[:path]
+    @username= params[:path]
     if request.user_agent.include? "iPhone"
+      puts "iPhone"
       render "iphone.js"
     else
       redirect_to @url
