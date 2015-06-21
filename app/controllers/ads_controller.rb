@@ -4,17 +4,24 @@ class AdsController < ApplicationController
 
   def index
     # logging - start click event
+    session[:state] = 'hello'
+    puts session[:state]
     @username = params[:username]
     puts request.user_agent
-    if request.user_agent.include? "facebook"
-      render 'lookup.html'
-    end
 
-    if request.user_agent.include? "iPhone"
-      puts 'in if'
-      render "iphone.html.erb"
-    else
-      redirect_to @url
+    respond_to do |format|
+      format.all {
+        if request.user_agent.include? "externalhit"
+          puts 'externalhit'
+          render 'lookup.html'
+        elsif request.user_agent.include? "iPhone"
+          puts 'iphone'
+          render "iphone.html.erb"
+        else
+          puts 'non iphone'
+          redirect_to @url
+        end
+        }
     end
   end
 
